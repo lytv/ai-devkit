@@ -54,8 +54,12 @@ AI DevKit provides helpful commands to guide your development workflow:
 - `/review-requirements` - Review requirements documentation
 - `/review-design` - Validate design docs against requirements
 - `/execute-plan` - Work through implementation tasks
+- `/check-implementation` - Compare implementation with design documents
 - `/writing-test` - Generate comprehensive test cases
 - `/code-review` - Perform structured code reviews
+- `/capture-knowledge` - Capture structured understanding of code entry points
+- `/debug` - Debug issues by clarifying expectations and agreeing on fix plans
+- `/update-planning` - Reconcile implementation progress with planning documentation
 
 ## Next Steps
 
