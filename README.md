@@ -43,6 +43,8 @@ This will:
 2. Set up your AI development environment (Cursor/Claude Code)
 3. Generate phase templates in `docs/ai/`
 
+Detailed user guide can be found [here](https://ai-devkit.com/docs/).
+
 ## Available Phases
 
 - **Requirements**: Problem understanding, requirements gathering, and success criteria
@@ -239,114 +241,6 @@ Commands can be referenced in Claude Code chats to guide AI assistance through y
 
 8. **Monitor and iterate:**
    - Set up monitoring per `docs/ai/monitoring/README.md`
-
-### Adding a New Feature
-
-**Use the `/new-requirement` command for a guided workflow:**
-
-1. **In Cursor or Claude Code**, type `/new-requirement`
-2. The AI will guide you through:
-   - 📋 Capturing requirement details
-   - 🔍 Creating feature-specific documentation
-   - 📐 Designing the solution
-   - 📅 Planning tasks and breaking down work
-   - 💻 Implementation (task by task)
-   - ✅ Testing and verification
-   - 🔀 Git commits and PR/MR creation
-
-**Review and refine your documentation:**
-- After drafting requirements, run `/review-requirements` to validate completeness
-- After drafting design, run `/review-design` to ensure architecture clarity and mermaid diagrams
-
-**Execute your plan:**
-- Run `/execute-plan` to step through tasks interactively:
-  - Reads `docs/ai/planning/feature-{name}.md`
-  - Presents tasks in order with context
-  - Captures status/notes for each task
-  - Prompts you to update documentation as you progress
-
-**Before pushing your code:**
-- Run `/code-review` to perform a structured local review:
-  - Checks alignment with design docs
-  - Spots logic/security/performance issues
-  - Highlights redundant code and missing tests
-  - Suggests documentation updates
-
-**Generate comprehensive tests:**
-- Run `/writing-test` to create unit and integration tests targeting 100% coverage
-
-This workflow creates feature-specific files:
-- `docs/ai/requirements/feature-{name}.md`
-- `docs/ai/design/feature-{name}.md`
-- `docs/ai/planning/feature-{name}.md`
-- `docs/ai/implementation/feature-{name}.md`
-- `docs/ai/testing/feature-{name}.md`
-
-### Understanding Existing Code
-
-**Use the `/capture-knowledge` command to analyze and document code:**
-
-The `capture-knowledge` command helps you understand how existing code works by analyzing it from any entry point and generating comprehensive documentation with visual diagrams.
-
-**In Cursor:**
-```
-/capture-knowledge <entry-point> [options]
-```
-
-**In Claude Code:**
-```
-Use the capture-knowledge command to analyze <entry-point>
-```
-
-**Entry Point Types:**
-- **File**: `/capture-knowledge src/api/users.ts` - Analyzes a specific file
-- **Folder**: `/capture-knowledge src/services/` - Analyzes an entire module
-- **Function**: `/capture-knowledge calculateTotalPrice` - Analyzes a specific function
-- **API Endpoint**: `/capture-knowledge POST:/api/users` - Analyzes an API endpoint flow
-
-**What You Get:**
-- 📖 **Detailed Explanation**: Natural language description of how the code works
-- 🔍 **Implementation Details**: Key components, logic flow, and design patterns
-- 🔗 **Recursive Dependency Analysis**: Automatically traces and explains all dependencies
-- 📊 **Mermaid Diagrams**: Visual flowcharts, sequence diagrams, and architecture diagrams
-- 💡 **Insights**: Performance considerations, security notes, potential improvements
-
-**Example Outputs:**
-
-For functions, you get:
-- Flowchart showing execution path
-- Parameter and return value documentation
-- Called functions and their purposes
-- Error handling strategy
-
-For API endpoints, you get:
-- Sequence diagram showing request flow
-- Validation and authentication steps
-- Database operations
-- Response format
-
-For modules/folders, you get:
-- Architecture diagram showing component relationships
-- Overview of each file's purpose
-- Module boundaries and dependencies
-
-**Use Cases:**
-- 🎯 Onboarding new developers to understand the codebase
-- 📚 Generating documentation for complex systems
-- 🔍 Debugging by understanding complete execution flow
-- 🏗️ Refactoring with full context of dependencies
-- 📖 Creating knowledge base entries
-
-**Example Workflow:**
-```bash
-# Document an entire authentication module
-/capture-knowledge @src/auth/
-
-# Analyze an API endpoint
-/capture-knowledge POST:/api/checkout
-```
-
-The analysis is saved to `docs/ai/knowledge/` and can be versioned alongside your code.
 
 ## Use Cases
 
