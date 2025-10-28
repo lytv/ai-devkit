@@ -304,11 +304,6 @@ Use the capture-knowledge command to analyze <entry-point>
 - **Function**: `/capture-knowledge calculateTotalPrice` - Analyzes a specific function
 - **API Endpoint**: `/capture-knowledge POST:/api/users` - Analyzes an API endpoint flow
 
-**Options:**
-- `--depth <n>` - Control recursion depth (default: 3)
-- `--save` - Save output to `docs/ai/knowledge/`
-- `--diagram-only` - Generate only diagrams
-
 **What You Get:**
 - 📖 **Detailed Explanation**: Natural language description of how the code works
 - 🔍 **Implementation Details**: Key components, logic flow, and design patterns
@@ -344,17 +339,11 @@ For modules/folders, you get:
 
 **Example Workflow:**
 ```bash
-# Understand a payment function
-/capture-knowledge processPayment --depth 4
-
 # Document an entire authentication module
-/capture-knowledge src/auth/ --save
+/capture-knowledge @src/auth/
 
 # Analyze an API endpoint
 /capture-knowledge POST:/api/checkout
-
-# Get just the diagrams for a complex function
-/capture-knowledge handleOrderProcessing --diagram-only
 ```
 
 The analysis is saved to `docs/ai/knowledge/` and can be versioned alongside your code.
