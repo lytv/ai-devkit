@@ -81,6 +81,10 @@ export default function Home() {
                 This creates a <code>docs/ai/</code> directory with phase templates for 
                 requirements, design, planning, implementation, testing, deployment, and monitoring.
               </p>
+              <p className="text-gray-600 mt-6">
+                In Cursor or Claude Code, type <code>/new-requirement</code> to get started.
+              </p>
+              <iframe src="https://www.youtube.com/embed/8cNFkHEVE3o?autoplay=1&mute=1&loop=1&controls=0" className="w-full h-[440px]" />
             </div>
             <div className="text-center mt-8">
               <Link 
