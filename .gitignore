@@ -9,3 +9,6 @@ dist/
 .claude/
 docs/ai/
 AGENTS.md
+
+#Ignore cursor AI rules
+.cursor/rules/codacy.mdc
