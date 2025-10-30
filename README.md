@@ -629,6 +629,364 @@ Goal: Analyze this file before refactoring to understand dependencies
 Goal: Create overview documentation of the main architecture patterns
 ```
 
+### Creating New Features with New Requirement
+
+The `/new-requirement` command provides a complete workflow for adding new features from initial requirements to creating a Pull Request. This systematic approach ensures proper documentation, design, and planning before implementation.
+
+#### When to Use
+
+Use this command when:
+- Adding a new feature to your project
+- Starting work on a user story
+- Implementing a new API or service
+- Adding functionality that requires design and planning
+- Ensuring complete documentation before coding
+
+#### Complete Workflow Overview
+
+```mermaid
+graph TD
+    A[Start: New Feature Idea] --> B[Step 1: Capture Requirement]
+    B --> C[Step 2: Create Feature Docs]
+    C --> D[Step 3: Requirements Phase]
+    D --> E[Step 4: Design Phase]
+    E --> F[Step 5: Planning Phase]
+    F --> G[Step 6: Review Docs]
+    G --> H[Step 7: Implementation Phase]
+    H --> I[Step 8: Testing Phase]
+    I --> J[Step 9: Local Testing]
+    J --> K[Step 10: Code Review]
+    K --> L[Step 11: Create PR]
+    
+    style A fill:#90EE90
+    style L fill:#FFB6C1
+```
+
+#### Step-by-Step Guide
+
+**Step 1: Start the command**
+
+```bash
+# In Cursor: Type /new-requirement in the AI chat
+# In Claude Code: Mention "new-requirement" in your chat
+```
+
+**Step 2: Define your feature**
+
+The AI will ask you:
+
+```
+What is the feature name? (e.g., "user-authentication", "payment-integration")
+What problem does it solve?
+Who will use it?
+What are the key user stories?
+```
+
+**Example:**
+```
+Feature name: user-notifications
+Problem: Users don't know when there are updates to their projects
+Users: Project owners and collaborators
+User stories:
+- As a project owner, I want to receive email notifications when someone comments
+- As a collaborator, I want to get notified when my task is assigned
+- As a user, I want to configure my notification preferences
+```
+
+**Step 3: Documents created automatically**
+
+The AI creates feature-specific documentation files:
+- `docs/ai/requirements/feature-{name}.md`
+- `docs/ai/design/feature-{name}.md`
+- `docs/ai/planning/feature-{name}.md`
+- `docs/ai/implementation/feature-{name}.md`
+- `docs/ai/testing/feature-{name}.md`
+
+**Step 4-6: Documentation phases**
+
+The AI guides you through each documentation phase:
+
+**Requirements Phase** (`docs/ai/requirements/feature-{name}.md`):
+- Clarify problem statement
+- Define goals and non-goals
+- Write detailed user stories
+- Establish success criteria
+- Identify constraints
+
+**Design Phase** (`docs/ai/design/feature-{name}.md`):
+- System architecture changes
+- Data models/schema changes
+- API endpoints or interfaces
+- Components to create/modify
+- Design decisions and rationale
+
+**Planning Phase** (`docs/ai/planning/feature-{name}.md`):
+- Task breakdown with subtasks
+- Dependencies identification
+- Effort estimates
+- Implementation order
+- Risks and mitigation
+
+**Step 7: Document review**
+
+The AI automatically runs:
+- `/review-requirements` to validate completeness
+- `/review-design` to ensure alignment
+
+**Step 8-10: Implementation and testing**
+
+For each task in your plan:
+1. Review task requirements and design
+2. Implement with AI guidance
+3. Update implementation notes
+4. Write tests with `/writing-test`
+5. Run local testing
+6. Review with `/code-review`
+
+**Step 11: Create Pull Request**
+
+The AI generates a PR description template:
+
+```markdown
+## Feature: User Notifications
+
+### Summary
+Implements real-time and email notifications for project updates...
+
+### Requirements
+- Documented in: `docs/ai/requirements/feature-user-notifications.md`
+- Related to: #123
+
+### Changes
+- Added notification service
+- Updated user preferences API
+- Created email templates
+
+### Design
+- Architecture: Event-driven with queue
+- Key decisions: Async processing for performance
+
+### Testing
+- Unit tests: 95% coverage
+- Integration tests: All scenarios covered
+- Manual testing: Completed
+- Test documentation: `docs/ai/testing/feature-user-notifications.md`
+
+### Checklist
+- [x] Code follows project standards
+- [x] All tests pass
+- [x] Documentation updated
+- [x] No breaking changes
+- [x] Ready for review
+```
+
+#### Real Example: Building a Notification System
+
+**Input:**
+```
+/new-requirement
+
+Feature name: user-notifications
+Problem: Users miss important updates about their projects
+Users: All authenticated users
+User stories: See example above
+```
+
+**AI Process:**
+
+**1. Creates documents:**
+```
+Created: docs/ai/requirements/feature-user-notifications.md
+Created: docs/ai/design/feature-user-notifications.md
+Created: docs/ai/planning/feature-user-notifications.md
+Created: docs/ai/implementation/feature-user-notifications.md
+Created: docs/ai/testing/feature-user-notifications.md
+```
+
+**2. Requirements phase:**
+```markdown
+# Feature: User Notifications
+
+## Problem Statement
+Users currently have no way to know about important updates...
+
+## Goals
+- Email notifications for critical events
+- In-app notification center
+- User-configurable preferences
+...
+
+## Success Criteria
+- 90% of users receive notifications within 5 seconds
+- Zero duplicate notifications
+- 100% delivery rate for critical events
+```
+
+**3. Design phase:**
+```markdown
+# Design: User Notifications
+
+## Architecture
+- Notification service (microservice)
+- Event-driven with message queue
+- Email service integration
+
+## Data Models
+```mermaid
+erDiagram
+    User ||--o{ Notification : receives
+    Notification ||--|| NotificationPreferences : uses
+    Event ||--o{ Notification : triggers
+    
+    User {
+        string id
+        string email
+    }
+    Notification {
+        string id
+        string type
+        datetime createdAt
+        boolean read
+    }
+```
+
+## API Endpoints
+- POST /api/notifications/preferences
+- GET /api/notifications
+- PUT /api/notifications/:id/read
+```
+
+**4. Planning phase:**
+```markdown
+# Planning: User Notifications
+
+## Task Breakdown
+
+### 1. Database Schema
+- Create notifications table
+- Create notification_preferences table
+- Add indexes
+- Estimated: 2 hours
+
+### 2. Notification Service
+- Event listener setup
+- Notification generation logic
+- Email integration
+- Estimated: 8 hours
+
+### 3. API Endpoints
+- Preferences API
+- Notifications list API
+- Mark as read API
+- Estimated: 4 hours
+...
+```
+
+**5. Implementation** (using `/execute-plan`):
+```
+/execute-plan
+
+Task 1: Database Schema
+- [ ] Create migrations
+- [ ] Write tests
+- [ ] Review
+```
+
+**6. Create PR:**
+```bash
+gh pr create --title "feat: user-notifications" --body-file pr-description.md
+```
+
+#### Best Practices
+
+1. **Complete documentation first**
+   - Don't skip requirements or design
+   - Well-documented features are easier to implement
+
+2. **Be specific in user stories**
+   - Clear user stories lead to better design
+   - Include acceptance criteria
+
+3. **Review before implementing**
+   - Get feedback on design
+   - Adjust plan based on reviews
+
+4. **Update as you go**
+   - Document implementation decisions
+   - Keep testing documentation current
+
+5. **Use chained commands**
+   - Automatically run `/review-requirements` and `/review-design`
+   - Use `/execute-plan` for implementation
+   - Use `/writing-test` for testing
+
+6. **Keep PRs focused**
+   - One feature per PR
+   - Reference documentation in PR description
+
+#### Common Use Cases
+
+**Building a new API:**
+```
+/new-requirement
+
+Feature: user-profile-api
+Problem: Need centralized user profile management
+Users: Mobile and web clients
+User stories:
+- As a client, I want to fetch user profile data
+- As a client, I want to update user profile
+- As a user, I want to upload profile picture
+```
+
+**Adding a dashboard feature:**
+```
+/new-requirement
+
+Feature: analytics-dashboard
+Problem: Users need insights into their activity
+Users: Business users
+User stories:
+- As a business user, I want to see usage statistics
+- As a manager, I want to export reports
+- As an admin, I want real-time metrics
+```
+
+**Integrating third-party service:**
+```
+/new-requirement
+
+Feature: stripe-payment-integration
+Problem: Need to accept online payments
+Users: Customers and admins
+User stories:
+- As a customer, I want to pay with credit card
+- As a customer, I want to save payment methods
+- As an admin, I want to view payment history
+```
+
+#### Tips for Success
+
+1. **Start with the problem**
+   - Clearly define what you're solving
+   - Avoid solution-first thinking
+
+2. **Include all stakeholders**
+   - Get input from product, design, and engineering
+   - Validate user stories early
+
+3. **Break down complex features**
+   - Use `/new-requirement` for major features
+   - Break into smaller sub-features if needed
+
+4. **Keep documentation in sync**
+   - Update docs as implementation changes
+   - Regular sync prevents drift
+
+5. **Use the planning to estimate**
+   - Accurate planning = accurate estimates
+   - Helps with sprint planning
+
 ## Use Cases
 
 - **New Projects**: Scaffold complete development documentation
