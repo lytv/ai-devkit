@@ -51,22 +51,22 @@ Detailed user guide can be found [here](https://ai-devkit.com/docs/).
 
 ```mermaid
 graph TD
-    A[Start: Initialize Project] --> B{Choose Environment}
-    B -->|Cursor| C1[.cursor/ directory]
-    B -->|Claude| C2[.claude/ directory]
-    B -->|Both| C3[Both directories]
+    A["Start: Initialize Project"] --> B{"Choose Environment"}
+    B -->|Cursor| C1[".cursor directory"]
+    B -->|Claude| C2[".claude directory"]
+    B -->|Both| C3["Both directories"]
     
-    C1 --> D[Phase Templates Created]
+    C1 --> D["Phase Templates Created"]
     C2 --> D
     C3 --> D
     
-    D --> E[Requirements Phase]
-    E --> F[Design Phase]
-    F --> G[Planning Phase]
-    G --> H[Implementation Phase]
-    H --> I[Testing Phase]
-    I --> J[Deployment Phase]
-    J --> K[Monitoring Phase]
+    D --> E["Requirements Phase"]
+    E --> F["Design Phase"]
+    F --> G["Planning Phase"]
+    G --> H["Implementation Phase"]
+    H --> I["Testing Phase"]
+    I --> J["Deployment Phase"]
+    J --> K["Monitoring Phase"]
     
     style A fill:#90EE90
     style K fill:#FFB6C1
@@ -77,37 +77,30 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Feature Development Flow"
-        A1[New Feature Idea] --> A2[/new-requirement]
+        A1[New Feature Idea] -->|use command| A2[new requirement]
         A2 --> A3[Document Requirements]
         A3 --> A4[Review Design]
         A4 --> A5[Create Plan]
-        A5 --> A6[/execute-plan]
+        A5 -->|use command| A6[execute plan]
         A6 --> A7[Write Code]
         A7 --> A8[Write Tests]
-        A8 --> A9[/code-review]
+        A8 -->|use command| A9[code review]
         A9 --> A10[Create PR]
     end
     
     subgraph "Maintenance & Updates"
-        B1[Design Change] --> B2[/review-design]
-        B2 --> B3[/update-planning]
+        B1[Design Change] -->|use command| B2[review design]
+        B2 -->|use command| B3[update planning]
         B3 --> B4[Implement]
-        B4 --> B5[/check-implementation]
-        B5 --> B6[/writing-test]
+        B4 -->|use command| B5[check implementation]
+        B5 -->|use command| B6[writing test]
     end
     
     subgraph "Understanding Existing Code"
-        C1[Complex Codebase] --> C2[/capture-knowledge]
+        C1[Complex Codebase] -->|use command| C2[capture knowledge]
         C2 --> C3[Generated Diagrams]
         C3 --> C4[Documented Explanations]
     end
-    
-    style A2 fill:#87CEEB
-    style A6 fill:#87CEEB
-    style A9 fill:#87CEEB
-    style B2 fill:#DDA0DD
-    style B5 fill:#DDA0DD
-    style C2 fill:#F0E68C
 ```
 
 ### Command Usage Flow
@@ -121,57 +114,57 @@ sequenceDiagram
     participant Git as Git/GitHub
     
     Note over Dev,Git: Initial Setup
-    Dev->>CLI: ai-devkit init --environment cursor --all
+    Dev->>CLI: ai devkit init with environment cursor and all
     CLI->>Docs: Create phase templates
-    CLI->>Docs: Create .cursor/commands/
-    CLI-->>Dev: Setup complete ✓
+    CLI->>Docs: Create cursor commands directory
+    CLI-->>Dev: Setup complete
     
     Note over Dev,Git: Feature Development
-    Dev->>AI: /new-requirement: "Add user authentication"
+    Dev->>AI: new requirement: Add user authentication
     AI->>Docs: Read requirements phase
-    AI->>Docs: Update requirements.md
-    AI->>Docs: Create design.md with diagrams
-    AI->>Docs: Create planning.md with tasks
+    AI->>Docs: Update requirements md
+    AI->>Docs: Create design md with diagrams
+    AI->>Docs: Create planning md with tasks
     
-    Dev->>AI: /execute-plan
-    AI->>Docs: Read planning.md
+    Dev->>AI: execute plan
+    AI->>Docs: Read planning md
     AI->>Dev: Show task 1
     Dev->>Dev: Implement task
-    Dev->>AI: /write-test
+    Dev->>AI: write test
     AI->>Docs: Create test files
-    Dev->>AI: /code-review
-    AI->>Docs: Check against design.md
+    Dev->>AI: code review
+    AI->>Docs: Check against design md
     AI-->>Dev: Review feedback
     
-    Dev->>Git: git commit & push
+    Dev->>Git: git commit and push
     Dev->>Git: Create PR
     
     Note over Dev,Git: Maintenance
-    Dev->>AI: /review-design
-    AI->>Docs: Analyze design.md
+    Dev->>AI: review design
+    AI->>Docs: Analyze design md
     AI-->>Dev: Design insights
     Dev->>Docs: Update design
-    Dev->>AI: /update-planning
-    AI->>Docs: Update planning.md
+    Dev->>AI: update planning
+    AI->>Docs: Update planning md
 ```
 
 ### Command Quick Decision Tree
 
 ```mermaid
 flowchart TD
-    Start{What do you want to do?}
+    Start{"What do you want to do?"}
     
-    Start -->|New Project| Init[ai-devkit init]
-    Start -->|Add Phase| Phase[ai-devkit phase]
-    Start -->|New Feature| Feature[/new-requirement]
-    Start -->|Implement| Implement[/execute-plan]
-    Start -->|Review Code| Review[/code-review]
-    Start -->|Write Tests| Test[/writing-test]
-    Start -->|Update Plan| Update[/update-planning]
-    Start -->|Check Design| Check[/check-implementation]
-    Start -->|Review Design| Design[/review-design]
-    Start -->|Review Reqs| Reqs[/review-requirements]
-    Start -->|Understand Code| Capture[/capture-knowledge]
+    Start -->|New Project| Init[ai devkit init]
+    Start -->|Add Phase| Phase[ai devkit phase]
+    Start -->|New Feature| Feature[new requirement]
+    Start -->|Implement| Implement[execute plan]
+    Start -->|Review Code| Review[code review]
+    Start -->|Write Tests| Test[writing test]
+    Start -->|Update Plan| Update[update planning]
+    Start -->|Check Design| Check[check implementation]
+    Start -->|Review Design| Design[review design]
+    Start -->|Review Reqs| Reqs[review requirements]
+    Start -->|Understand Code| Capture[capture knowledge]
     
     Init --> Setup[Setup complete]
     Phase --> Added[Phase added]
@@ -196,22 +189,13 @@ flowchart TD
     Designed --> Done
     ReqReviewed --> Done
     Explained --> Done
-    
-    style Start fill:#FFD700
-    style Done fill:#90EE90
-    style Init fill:#87CEEB
-    style Phase fill:#87CEEB
-    style Feature fill:#DDA0DD
-    style Implement fill:#DDA0DD
-    style Review fill:#DDA0DD
-    style Test fill:#DDA0DD
 ```
 
 ### Phase Transition Workflow
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Initialize: ai-devkit init
+    [*] --> Initialize: ai devkit init
     
     Initialize --> Requirements: Start
     Requirements --> Design: Complete requirements
@@ -221,10 +205,10 @@ stateDiagram-v2
     Testing --> Deployment: Tests passed
     Deployment --> Monitoring: Deployed
     
-    Requirements --> Requirements: /review-requirements
-    Design --> Design: /review-design
-    Planning --> Planning: /update-planning
-    Implementation --> Design: /check-implementation
+    Requirements --> Requirements: review requirements
+    Design --> Design: review design
+    Planning --> Planning: update planning
+    Implementation --> Design: check implementation
     Implementation --> Planning: Need more tasks
     Testing --> Implementation: Fix bugs
     Deployment --> Implementation: Rollback needed
