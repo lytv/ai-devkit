@@ -397,6 +397,7 @@ Available slash commands:
 - `/check-implementation`: Compare implementation with design
 - `/review-design`: Review system design and architecture
 - `/review-requirements`: Review and summarize requirements
+- `/capture-knowledge`: Analyze and document complex code with dependency analysis and diagrams
 
 Each command is stored as a plain Markdown file in `.cursor/commands/` and will automatically appear when you type `/` in Cursor's chat input.
 
@@ -454,6 +455,179 @@ Commands can be referenced in Claude Code chats to guide AI assistance through y
 
 8. **Monitor and iterate:**
    - Set up monitoring per `docs/ai/monitoring/README.md`
+
+### Understanding Existing Code with Capture Knowledge
+
+The `capture-knowledge` command helps you analyze and document complex code by creating structured documentation with diagrams. This is especially useful when:
+- Working with legacy code or unfamiliar codebases
+- Onboarding new team members
+- Planning refactoring or improvements
+- Documenting complex business logic
+
+#### Step-by-Step Guide
+
+**Step 1: Start the command**
+
+```bash
+# In Cursor: Type /capture-knowledge in the AI chat
+# In Claude Code: Mention "capture-knowledge" in your chat
+```
+
+**Step 2: Provide entry point**
+
+Tell the AI what you want to understand. Examples:
+
+```
+I want to understand the authentication system. Start with src/auth/index.ts
+```
+
+```
+Help me understand the payment processing flow in the checkout module
+```
+
+```
+I need to understand how user data is validated in the api/users directory
+```
+
+**Step 3: AI analyzes the code**
+
+The AI will:
+1. Read the entry point file
+2. Build a dependency tree (up to depth 3)
+3. Track relationships between modules
+4. Extract core logic and patterns
+5. Identify important external dependencies
+
+**Step 4: Review generated documentation**
+
+The AI creates a file in `docs/ai/implementation/knowledge-*.md` containing:
+- Overview of the code's purpose
+- Implementation details with key logic
+- Dependency diagram (Mermaid)
+- Data flow or execution flow diagrams
+- Error handling and edge cases
+- Potential improvements or concerns
+- Metadata (analysis date, files analyzed)
+
+**Step 5: Refine if needed**
+
+Ask for deeper analysis of specific areas:
+
+```
+Go deeper into the database query layer
+```
+
+```
+Show me the error handling patterns
+```
+
+```
+Focus more on the security aspects
+```
+
+#### Real Example
+
+Let's say you want to understand a user authentication system:
+
+**Input:**
+```
+/capture-knowledge
+
+Entry point: src/auth/middleware.ts
+Goal: Understand how authentication and authorization work in this API
+```
+
+**AI Process:**
+1. Reads `src/auth/middleware.ts`
+2. Follows imports to `src/auth/jwt.ts`, `src/auth/permissions.ts`
+3. Traces dependencies to `src/db/models/User.ts`
+4. Analyzes external packages used
+5. Creates diagrams showing the authentication flow
+
+**Output:** `docs/ai/implementation/knowledge-auth-middleware.md`
+
+```markdown
+# Authentication Middleware Analysis
+
+## Overview
+The authentication middleware validates JWT tokens and enforces role-based access control...
+
+## Dependencies
+- Internal: jwt.ts, permissions.ts, User model
+- External: jsonwebtoken, express
+
+## Flow Diagram
+```mermaid
+sequenceDiagram
+    Client->>Middleware: Request with JWT
+    Middleware->>JWT: Verify token
+    JWT-->>Middleware: User payload
+    Middleware->>Permissions: Check role
+    Permissions-->>Middleware: Allowed
+    Middleware->>Router: Next()
+```
+
+## Core Logic
+1. Extract token from Authorization header
+2. Verify signature and expiry
+3. Check user permissions
+4. Attach user context to request
+...
+
+## Findings
+- Uses HS256 algorithm with secret key
+- Refresh token not implemented
+- Permission checks could be cached
+```
+
+#### Best Practices
+
+1. **Start broad, then go deep**
+   - First capture the overall architecture
+   - Then use `/capture-knowledge` again for specific modules
+
+2. **Provide context**
+   - Mention why you're analyzing this code
+   - Specify what aspects are most important
+
+3. **Use the output**
+   - Review diagrams to understand relationships
+   - Share with team members for onboarding
+   - Reference during code reviews
+
+4. **Keep it updated**
+   - Re-run when significant changes are made
+   - Update manually if refactoring occurs
+
+5. **Iterate**
+   - First capture might be high-level
+   - Ask follow-up questions for details
+
+#### Common Use Cases
+
+**Onboarding to a codebase:**
+```
+/capture-knowledge src/api/routes/users.ts
+Goal: Help me understand the user management API endpoints
+```
+
+**Debugging a bug:**
+```
+/capture-knowledge src/services/payment.ts
+Goal: I need to understand the payment processing flow to fix issue #123
+```
+
+**Planning refactoring:**
+```
+/capture-knowledge src/utils/dataProcessor.ts
+Goal: Analyze this file before refactoring to understand dependencies
+```
+
+**Documenting architecture:**
+```
+/capture-knowledge src/
+Goal: Create overview documentation of the main architecture patterns
+```
 
 ## Use Cases
 
